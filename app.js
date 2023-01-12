@@ -4,6 +4,8 @@ const authRoutes = require('./routes/auth')
 const cookieParser = require('cookie-parser');
 const app = express();
 const { requireAuth } = require('./middleware/authMiddleware');
+// Import and configure dotenv
+require('dotenv').config()
 
 
 // middleware
@@ -15,9 +17,10 @@ app.use(cookieParser())
 app.set('view engine', 'ejs');
 
 // database connection
-// const dbURI = 'mongodb+srv://aabiskar:test123@cluster0.3cnv3.mongodb.net/mern-login';
-const dbURI = 'mongodb://localhost:27017/mern-login'
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true })
+
+//const dbURI = 'mongodb://localhost:27017/mern-login'
+mongoose.set('strictQuery', true)
+mongoose.connect(process.env.DBURI)
   .then((result) => app.listen(3000))
   .catch((err) => console.log(err));
 
